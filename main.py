@@ -1,6 +1,7 @@
 from traceback import print_tb
 from nbformat import read
 import pandas as pd
+import json 
 
 def len_val(dict):
   count = 0
@@ -32,8 +33,9 @@ for file in files:
   df = pd.read_csv(file_path)
   towns = df['Town']
   outKey = file
+  towns_set = set(towns)
   outVal = []
-  for town in towns:   
+  for town in towns_set:   
     if town not in all_munis:
       print(f'\t***unknown town:{town}***')
       nottowns.append(town) 
@@ -59,4 +61,6 @@ print(f'townCount {townsCount}')
 #     print(dups)
 
 print(len_val(countyMap))
-  
+print(countyMap)
+with open('data/clean/ct_countymap.json', 'w') as json_output:
+  json.dump(countyMap, json_output, indent=4)  
